@@ -16,9 +16,13 @@ def show_game(username):
 def check_pwd(username, password):
     connection = sqlite3.connect('flask.db')
     cursor = connection.cursor()
+    print(username, 'check pwd username')
+
     cursor.execute('''SELECT password FROM users WHERE username='{username}' ORDER BY pk DESC;'''.format(username = username))
-    db_password = cursor.fetchone()[0]
-    print(db_password)
+    db_password = cursor.fetchone()
+    if len(db_password) > 0:
+        db_password = db_password[0]
+    print(db_password, 'check pwd db_password')
     connection.commit()
     cursor.close()
     connection.close()
@@ -29,6 +33,22 @@ def check_pwd(username, password):
     else:
         return False
 
+def check_users():
+    connection = sqlite3.connect('flask.db')
+    cursor = connection.cursor()
+    cursor.execute('''SELECT username FROM users ORDER BY pk DESC;''')
+    db_users = cursor.fetchall()
+    users = []
+
+    for i in range(len(db_users)):
+        person = db_users[i][0]
+        users.append(person)
+
+    connection.commit()
+    cursor.close()
+    connection.close()
+    
+    return users
 
 def check_user_exist(username):
     connection = sqlite3.connect('flask.db')
