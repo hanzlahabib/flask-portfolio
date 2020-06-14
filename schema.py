@@ -2,7 +2,6 @@ import sqlite3
 
 connection = sqlite3.connect('flask.db')
 c = connection.cursor()
-
 c.execute(
     	''' 
         CREATE TABLE users(
@@ -13,7 +12,6 @@ c.execute(
         );
         '''
 )
-
 connection.commit()
-connection.close()
 c.close()
+connection.close()
